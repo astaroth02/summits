@@ -18,16 +18,17 @@ spec:
         ports:                               
         - containerPort: 3000                      
           name: http
-kind: Service             
-apiVersion: v1            
-metadata:                 
-  name: summit-service     
-spec:                     
-  selector:               
-    app: summit            
-  ports:                  
-  - protocol: TCP         
-    targetPort: 3000      
-    port: 80              
-    name: http            
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: summit-service
+spec:
+  selector:
+    app: summit
+  ports:
+  - protocol: TCP
+    targetPort: 3000
+    port: 80
+    name: http
   type: LoadBalancer
