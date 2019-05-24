@@ -83,38 +83,15 @@ const repository = (db) => {
 
   const findSummitsByCountry = (country) => {
     return new Promise((resolve, reject) => {
-      // const movies = []
-      // const cursor = collection.find({}, {title: 1, id: 1})
-      // const addMovie = (movie) => {
-      //   movies.push(movie)
-      // }
-      // const sendMovies = (err) => {
-      //   if (err) {
-      //     reject(new Error('An error occured fetching all movies, err:' + err))
-      //   }
-      //   resolve(movies.slice())
-      // }
-      // cursor.forEach(addMovie, sendMovies)
-        console.log(country)
-      resolve(collection.find(x => x.country === country))
+      resolve(collection.filter(x => x.country.toLowerCase() === country.toLowerCase()))
     })
   }
 
+  //Adds a +-100 Range by filtering for heights
   const findSummitsByHeight = (height, rel) => {
     return new Promise((resolve, reject) => {
-      // const movies = []
-      // const cursor = collection.find({}, {title: 1, id: 1})
-      // const addMovie = (movie) => {
-      //   movies.push(movie)
-      // }
-      // const sendMovies = (err) => {
-      //   if (err) {
-      //     reject(new Error('An error occured fetching all movies, err:' + err))
-      //   }
-      //   resolve(movies.slice())
-      // }
-      // cursor.forEach(addMovie, sendMovies)
-      resolve(collection.find(x => x.height === convertStringToInt(height)))
+        height = convertStringToInt(height)
+        resolve(filterRange(collection, height-100, height+100))
     })
   }
 
@@ -135,6 +112,12 @@ const repository = (db) => {
 
 const convertStringToInt = (stringToParse) => {
     return parseInt(stringToParse)
+}
+
+const filterRange = (arr, a, b) => {
+    console.log("a=" + a)
+    console.log("b=" + b)
+    return arr.filter(item => (item.height >= a && item.height <= b));
 }
 
 const connect = (connection) => {
