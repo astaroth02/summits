@@ -77,12 +77,14 @@ const repository = (db) => {
 
   const getSummitById = (id) => {
     return new Promise((resolve, reject) => {
+        console.log("Summit by ID requested; ID = " + id)
       resolve(collection.find(x => x.id === convertStringToInt(id)))
     })
   }
 
   const findSummitsByCountry = (country) => {
     return new Promise((resolve, reject) => {
+        console.log("Summit by country requested; country = " + country)
       resolve(collection.filter(x => x.country.toLowerCase() === country.toLowerCase()))
     })
   }
@@ -91,7 +93,10 @@ const repository = (db) => {
   const findSummitsByHeight = (height, rel) => {
     return new Promise((resolve, reject) => {
         height = convertStringToInt(height)
-        resolve(filterRange(collection, height-100, height+100))
+        const lowerLimit = height-100
+        const upperLimit = height+100
+        console.log("Summit by height requested; height = " + height + "; range from: " + lowerLimit + " to " + upperLimit)
+        resolve(filterRange(collection, lowerLimit, upperLimit))
     })
   }
 
@@ -115,8 +120,6 @@ const convertStringToInt = (stringToParse) => {
 }
 
 const filterRange = (arr, a, b) => {
-    console.log("a=" + a)
-    console.log("b=" + b)
     return arr.filter(item => (item.height >= a && item.height <= b));
 }
 
