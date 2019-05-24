@@ -1,0 +1,47 @@
+{
+  "frank.rittinger": {
+    "id": "1",
+    "username": "frank.rittinger",
+    "firstName": "Frank",
+    "lastName": "Rittinger",
+    "email": "frank@schnegg.net",
+    "password": "xxx",
+    "userStatus": "approved"
+  },
+  "marco.fenske": {
+    "id": "2",
+    "username": "marco.fenske",
+    "firstName": "Marco",
+    "lastName": "Fenske",
+    "email": "marco.f@vi.com",
+    "password": "xxx",
+    "userStatus": "approved"
+  },
+  "marco.rosenthal": {
+    "id": "3",
+    "username": "marco.rosenthal",
+    "firstName": "Marco",
+    "lastName": "Rosenthal",
+    "email": "marco.r@vi.com",
+    "password": "xxx",
+    "userStatus": "approved"
+  },
+  "benjamin.kaltenbrunn": {
+    "id": "4",
+    "username": "benjamin.kaltenbrunn",
+    "firstName": "Benjamin",
+    "lastName": "Kaltenbrunn",
+    "email": "benjamin.kaltenbrunn@vi.com",
+    "password": "xxx",
+    "userStatus": "approved"
+  },
+  "moe.mahdiani": {
+    "id": "5",
+    "username": "moe.mahdiani",
+    "firstName": "Moe",
+    "lastName": "Mahdiani",
+    "email": "moe.mahdiani@vi.com",
+    "password": "xxx",
+    "userStatus": "approved"
+  }
+}
