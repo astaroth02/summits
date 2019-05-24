@@ -5,13 +5,13 @@ module.exports = (app, options) => {
   const {repo} = options
 
   app.get('/summit/findByCountry', (req, res, next) => {
-    repo.findSummitsByCountry(req.params.country).then(summits => {
+    repo.findSummitsByCountry(req.query.country).then(summits => {
       res.status(status.OK).json(summits)
     }).catch(next)
   })
 
   app.get('/summit/findByHeight', (req, res, next) => {
-    repo.findSummitsByHeight(req.params.height,req.params.rel).then(summits => {
+    repo.findSummitsByHeight(req.query.height,req.query.rel).then(summits => {
       res.status(status.OK).json(summits)
     }).catch(next)
   })

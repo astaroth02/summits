@@ -14,21 +14,70 @@ const montBlanc = {
   country: 'France'
 }
 
+const schauinsland = {
+  id: 3,
+  name: 'Schauinsland',
+  height: 1284,
+  country: 'Germany'
+}
+
+const feldberg = {
+  id: 4,
+  name: 'Feldberg',
+  height: 1493,
+  country: 'Germany'
+}
+
+const damavand = {
+  id: 5,
+  name: 'Damavand',
+  height: 5610,
+  country: 'Iran'
+}
+
+const k2 = {
+  id: 6,
+  name: 'K2',
+  height: 8611,
+  country: 'China'
+}
+
+const mounteverest = {
+  id: 7,
+  name: 'Mount Everest',
+  height: 8848,
+  country: 'Nepal'
+}
+
+const zugspitze = {
+  id: 8,
+  name: 'Zugspitze',
+  height: 2962,
+  country: 'Germany'
+}
+
+const olympusmons = {
+  id: 9,
+  name: 'Olympus Mons',
+  height: 26400,
+  country: 'Mars'
+}
+
+const grossglockner = {
+  id: 10,
+  name: 'Großglockner',
+  height: 3798,
+  country: 'Austria'
+}
+
+
 const repository = (db) => {
-  // const collection = db.collection('summits')
+  //const collection = db.collection('summits')
+  const collection = [matterhorn, montBlanc, schauinsland, feldberg, damavand, k2, mounteverest, zugspitze, olympusmons, grossglockner]
 
   const getSummitById = (id) => {
     return new Promise((resolve, reject) => {
-      // const projection = { _id: 0, id: 1, title: 1, format: 1 }
-      // const sendMovie = (err, movie) => {
-      //   if (err) {
-      //     reject(new Error(`An error occured fetching a summit with id: ${id}, err: ${err}`))
-      //   }
-      //   resolve(movie)
-      // }
-      // collection.findOne({id: id}, projection, sendMovie)
-
-      resolve(matterhorn)
+      resolve(collection.find(x => x.id === convertStringToInt(id)))
     })
   }
 
@@ -46,7 +95,8 @@ const repository = (db) => {
       //   resolve(movies.slice())
       // }
       // cursor.forEach(addMovie, sendMovies)
-      resolve([matterhorn])
+        console.log(country)
+      resolve(collection.find(x => x.country === country))
     })
   }
 
@@ -64,7 +114,7 @@ const repository = (db) => {
       //   resolve(movies.slice())
       // }
       // cursor.forEach(addMovie, sendMovies)
-      resolve([matterhorn, montBlanc])
+      resolve(collection.find(x => x.height === convertStringToInt(height)))
     })
   }
 
@@ -72,12 +122,19 @@ const repository = (db) => {
     // db.close()
   }
 
+
+
   return Object.create({
     getSummitById,
     findSummitsByCountry,
     findSummitsByHeight,
     disconnect
   })
+
+}
+
+const convertStringToInt = (stringToParse) => {
+    return parseInt(stringToParse)
 }
 
 const connect = (connection) => {
