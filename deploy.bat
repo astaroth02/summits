@@ -1,26 +1,31 @@
 @SET version=v3
 @SET architecture=arm32v7
 
+@IF "%architecture%" == "arm32v7" (
+    SET suffix=_%architecture%
+)
+
 @SET servicename=ascent-service
 @echo
 @echo *******************************************
 @echo **  Update version for %servicename%     **
 @echo *******************************************
+@cd kubernetes
+node ..\setContainerTag.js summits-%servicename%%suffix%.yaml %version% %architecture%
 
-
-@SET servicename=summit-service
+@SET servicename=general-service
 @echo
 @echo *******************************************
 @echo **  Update version for %servicename%     **
 @echo *******************************************
-
+node ..\setContainerTag.js summits-%servicename%%suffix%.yaml %version% %architecture%
 
 @SET servicename=user-service
 @echo
 @echo *******************************************
 @echo **  Update version for %servicename%     **
 @echo *******************************************
-
+node ..\setContainerTag.js summits-%servicename%%suffix%.yaml %version% %architecture%
 
 
 @echo
@@ -39,7 +44,7 @@ docker build . -t marcofenskevi/summits-%servicename%:%version%
 docker push marcofenskevi/summits-%servicename%:%version%
 
 docker build . -t marcofenskevi/summits-%servicename%:arm32v7-%version%
-docker push marcofenskevi/summits-%servicename%:arm32v7-%version%
+docker push marcofenskevi/summits-%servicename%:%architecture%-%version%
 @cd ..\..
 
 @SET servicename=summit-service
@@ -51,8 +56,8 @@ docker push marcofenskevi/summits-%servicename%:arm32v7-%version%
 docker build . -t marcofenskevi/summits-%servicename%:%version%
 docker push marcofenskevi/summits-%servicename%:%version%
 
-docker build . -t marcofenskevi/summits-%servicename%:arm32v7-%version%
-docker push marcofenskevi/summits-%servicename%:arm32v7-%version%
+docker build . -t marcofenskevi/summits-%servicename%:%architecture%-%version%
+docker push marcofenskevi/summits-%servicename%:%architecture%-%version%
 @cd ..\..
 
 @SET servicename=user-service
@@ -64,8 +69,8 @@ docker push marcofenskevi/summits-%servicename%:arm32v7-%version%
 docker build . -t marcofenskevi/summits-%servicename%:%version%
 docker push marcofenskevi/summits-%servicename%:%version%
 
-docker build . -t marcofenskevi/summits-%servicename%:arm32v7-%version%
-docker push marcofenskevi/summits-%servicename%:arm32v7-%version%
+docker build . -t marcofenskevi/summits-%servicename%:%architecture%-%version%
+docker push marcofenskevi/summits-%servicename%:%architecture%-%version%
 @cd ..\..
 
 @echo
@@ -73,11 +78,7 @@ docker push marcofenskevi/summits-%servicename%:arm32v7-%version%
 @echo ** Deploy to Kubernetes Cluster          **
 @echo *******************************************
 @cd kubernetes
-@SET suffix=
-@IF "%architecture%" == "arm32v7" (
-    SET suffix=_arm32v7
-)
-kubectl apply -f summits_general%suffix%.yaml
-kubectl apply -f summits_user%suffix%.yaml
-kubectl apply -f summits_ascent%suffix%.yaml
+kubectl apply -f summits-general-service%suffix%.yaml
+kubectl apply -f summits-user-service%suffix%.yaml
+kubectl apply -f summits-ascent-service%suffix%.yaml
 @cd ..\..

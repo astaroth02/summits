@@ -1,34 +1,34 @@
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
-  name: summits-user-deployment
+  name: summits-general-deployment
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: summits-user
+      app: summits-general
   template:
     metadata:
       labels:
-        app: summits-user
+        app: summits-general
     spec:
       containers:
       - name: summits-container
-        image: marcofenskevi/summits-user-service:arm32v7
+        image: marcofenskevi/summits-summit-service:arm32v7-v3
         ports:                               
-        - containerPort: 3002                      
+        - containerPort: 3000                      
           name: http
 ---
 apiVersion: v1
 kind: Service                     
 metadata:                 
-  name: summits-user-service     
+  name: summits-general-service     
 spec:                     
   selector:               
-    app: summits-user            
+    app: summits-general            
   ports:                  
   - protocol: TCP         
-    targetPort: 3002      
+    targetPort: 3000      
     port: 80              
     name: http            
   type: LoadBalancer
