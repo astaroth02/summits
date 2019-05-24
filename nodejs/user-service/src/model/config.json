@@ -13,7 +13,7 @@
     "username": "marco.fenske",
     "firstName": "Marco",
     "lastName": "Fenske",
-    "email": "marco.f@vi.com",
+    "email": "marco.fenske@test.com",
     "password": "xxx",
     "userStatus": "approved"
   },
@@ -22,7 +22,7 @@
     "username": "marco.rosenthal",
     "firstName": "Marco",
     "lastName": "Rosenthal",
-    "email": "marco.r@vi.com",
+    "email": "marco.r@test.com",
     "password": "xxx",
     "userStatus": "approved"
   },
@@ -31,7 +31,7 @@
     "username": "benjamin.kaltenbrunn",
     "firstName": "Benjamin",
     "lastName": "Kaltenbrunn",
-    "email": "benjamin.kaltenbrunn@vi.com",
+    "email": "benjamin.kaltenbrunn@test.com",
     "password": "xxx",
     "userStatus": "approved"
   },
@@ -40,7 +40,7 @@
     "username": "moe.mahdiani",
     "firstName": "Moe",
     "lastName": "Mahdiani",
-    "email": "moe.mahdiani@vi.com",
+    "email": "moe.mahdiani@test.com",
     "password": "xxx",
     "userStatus": "approved"
   },
@@ -50,7 +50,7 @@
       "username": "marc.linden",
       "firstName": "Marc",
       "lastName": "Linden",
-      "email": "marc.linden@vi.com",
+      "email": "marc.linden@test.com",
       "password": "xxx",
       "userStatus": "approved"
     }
