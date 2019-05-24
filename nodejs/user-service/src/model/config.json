@@ -43,16 +43,5 @@
     "email": "moe.mahdiani@test.com",
     "password": "xxx",
     "userStatus": "approved"
-  },
-  "marc": {
-    "linden": {
-      "id": "ccab878e-71ab-4c74-92db-1a09e4f1c410",
-      "username": "marc.linden",
-      "firstName": "Marc",
-      "lastName": "Linden",
-      "email": "marc.linden@test.com",
-      "password": "xxx",
-      "userStatus": "approved"
-    }
   }
 }
