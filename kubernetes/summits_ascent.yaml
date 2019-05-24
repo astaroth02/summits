@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: summits-container
-        image: marcofenskevi/summits-ascent-service:v1
+        image: marcofenskevi/summits-ascent-service:v2
         ports:                               
         - containerPort: 3001                      
           name: http
