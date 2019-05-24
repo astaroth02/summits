@@ -13,7 +13,7 @@ const ascentSki = {
     tourType: "ski"
 }
 const ascentHike = {
-    id: 1,
+    id: 2,
     summitId: 1,
     userId: 2,
     ascentDate: "2019-08-01",
@@ -40,11 +40,15 @@ const controllers = {
         res.send(req.params)
     },
     getAscentsByUser: function(req, res) {
-        request('http://localhost:3002/user/frank.rittinger', { json: true }, (err, innerRes, body) => {
+        const userServiceHost = process.env.SUMMITS_USER_SERVICE_SERVICE_HOST;
+        const userServicePort = process.env.SUMMITS_USER_SERVICE_SERVICE_PORT;
+        const url = 'http://' + userServiceHost + ':' + userServicePort + '/user/' + req.params.userId;
+        console.log(url);
+        request( url, { json: true }, (err, innerRes, body) => {
             if (!err && innerRes.statusCode == 200) {
                 console.log('# response status: ' + innerRes.statusCode);
                 console.log('# Ascent Service: email=%s', body.email);
-                res.json([body.username, ascentSki, ascentHike]);
+                res.json({user : body, ascent : [ascentSki, ascentHike]});
 
             } else {
                 console.log(err);

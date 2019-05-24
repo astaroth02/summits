@@ -1,0 +1,6 @@
+{
+  "env": {
+    "SUMMITS_USER_SERVICE_SERVICE_HOST": "localhost",
+    "SUMMITS_USER_SERVICE_SERVICE_PORT": "3002"
+  }
+}
