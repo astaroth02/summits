@@ -1,9 +1,11 @@
 FROM node:8-alpine
 
-WORKDIR /usr/local/app/
-COPY package*.json /usr/local/app/
+WORKDIR /home/node/app/
+COPY package*.json /home/node/app/
 RUN npm install
-COPY src/ /usr/local/app/src
+COPY src/ /home/node/app/src
+
+RUN chown -R node: /home/node/app/
 
 USER node
 
