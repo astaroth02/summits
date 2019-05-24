@@ -1,6 +1,7 @@
 'use strict';
 
 const properties = require('../../package.json')
+const user = require('../model/user');
 //var distance = require('../service/distance');
 
 const user1 = {
@@ -23,19 +24,22 @@ const controllers = {
         res.json(aboutInfo);
     },
     createUser: function(req, res) {
-        console.log(req.body);
+        user.save(req.body);
         res.json(req.body);
     },
     getUser: function(req, res) {
-        res.json(user1);
+        const result = user.get(req.params.username);
+        res.json(result);
     },
     deleteUser: function(req, res) {
-        res.send(req.params)
+        user.delete(req.params.username);
+        res.send(req.params.username)
     },
     updateUser: function(req, res) {
-        console.log(req.body);
+        user.update(req.params.username, req.body);
         res.json(req.body);
     },
+    
     // get_distance: function(req, res) {
     //     distance.find(req, res, function(err, dist) {
     //         if (err)
