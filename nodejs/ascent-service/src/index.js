@@ -10,5 +10,5 @@ const routes = require('./api/routes');
 routes(app);
 
 app.listen(port, function() {
-    console.log('Ascent service server started on port: ' + port);
+    console.log('summits-application: Ascent service server started on port: ' + port);
 });

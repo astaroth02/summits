@@ -4,23 +4,24 @@ const server = require('./server/server')
 const repository = require('./repository/repository')
 const config = require('./config/')
 const mediator = new EventEmitter()
+const log_Prefix = 'summits-application: '
 
-console.log('--- Summits Service ---')
-console.log('Connecting to summits repository...')
+console.log(log_Prefix + '--- Summits Service ---')
+console.log(log_Prefix + 'Connecting to summits repository...')
 
 process.on('uncaughtException', (err) => {
-  console.error('Unhandled Exception', err)
+  console.error(log_Prefix + 'Unhandled Exception', err)
 })
 
 process.on('uncaughtRejection', (err, promise) => {
-  console.error('Unhandled Rejection', err)
+  console.error(log_Prefix + 'Unhandled Rejection', err)
 })
 
 mediator.on('db.ready', (db) => {
   let rep
   repository.connect(db)
     .then(repo => {
-      console.log('Connected. Starting Server')
+      console.log(log_Prefix + 'Connected. Starting Server')
       rep = repo
       return server.start({
         port: config.serverSettings.port,
@@ -28,7 +29,7 @@ mediator.on('db.ready', (db) => {
       })
     })
     .then(app => {
-      console.log(`Server started succesfully, running on port: ${config.serverSettings.port}.`)
+      console.log(log_Prefix + `Server started succesfully, running on port: ${config.serverSettings.port}.`)
       app.on('close', () => {
         rep.disconnect()
       })
@@ -36,7 +37,7 @@ mediator.on('db.ready', (db) => {
 })
 
 mediator.on('db.error', (err) => {
-  console.error(err)
+  console.error(log_Prefix + err)
 })
 
 // dummy emit call: must be removed when real DB is connected

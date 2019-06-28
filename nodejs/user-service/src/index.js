@@ -10,5 +10,5 @@ const routes = require('./api/routes');
 routes(app);
 
 app.listen(port, function() {
-    console.log('User service server started on port: ' + port);
+    console.log('summits-application: User service server started on port: ' + port);
 });

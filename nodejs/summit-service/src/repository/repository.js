@@ -1,5 +1,5 @@
 'use strict'
-const log_Prefix = 'summit-service: '
+const log_Prefix = 'summits-application: '
 
 const matterhorn = {
   id: 1,

@@ -3,6 +3,7 @@
 const request = require('request');
 const properties = require('../../package.json')
 //var distance = require('../service/distance');
+const log_Prefix = 'summits-application: '
 
 const ascentSki = {
     id: 1,
@@ -30,7 +31,7 @@ const controllers = {
         res.json(aboutInfo);
     },
     createAscent: function(req, res) {
-        console.log(req.body);
+        console.log(log_Prefix + req.body);
         res.json(req.body);
     },
     getAscent: function(req, res) {
@@ -40,37 +41,37 @@ const controllers = {
         res.send(req.params)
     },
     getAscentsByUser: function(req, res) {
-        console.log(`Ascent-service: getAscentsByUser. username: ${req.params.username}`);
+        console.log(log_Prefix + `Ascent-service: getAscentsByUser. username: ${req.params.username}`);
         const userServiceHost = process.env.SUMMITS_USER_SERVICE_SERVICE_HOST;
         const userServicePort = process.env.SUMMITS_USER_SERVICE_SERVICE_PORT;
         const url = 'http://' + userServiceHost + ':' + userServicePort + '/user/' + req.params.username;
-        console.log(url);
+        console.log(log_Prefix + url);
         request( url, { json: true }, (err, innerRes, body) => {
             if (!err && innerRes.statusCode == 200) {
-                console.log('# response status: ' + innerRes.statusCode);
-                console.log('# Ascent Service: email=%s', body.email);
+                console.log(log_Prefix + '# response status: ' + innerRes.statusCode);
+                console.log(log_Prefix + '# Ascent Service: email=%s', body.email);
                 res.json({user : body, ascent : [ascentSki, ascentHike]});
 
             } else {
-                console.log(err);
+                console.log(log_Prefix + err);
                 res.sendStatus(500);
             }
         });
     },
     getAscentsBySummit: function(req, res) {
-        console.log(`Ascent-service: getAscentsBySummit. id ${req.params.summitId}`);
+        console.log(log_Prefix + `Ascent-service: getAscentsBySummit. id ${req.params.summitId}`);
         const summitsServiceHost = process.env.SUMMITS_GENERAL_SERVICE_SERVICE_HOST;
         const summitsServicePort = process.env.SUMMITS_GENERAL_SERVICE_SERVICE_PORT;
         const url = 'http://' + summitsServiceHost + ':' + summitsServicePort + '/summit/' + req.params.summitId;
-        console.log(url);
+        console.log(log_Prefix + url);
         request( url, { json: true }, (err, innerRes, body) => {
             if (!err && innerRes.statusCode == 200) {
-                console.log('# response status: ' + innerRes.statusCode);
-                console.log('# Ascent Service: country=%s', body.country);
+                console.log(log_Prefix + '# response status: ' + innerRes.statusCode);
+                console.log(log_Prefix + '# Ascent Service: country=%s', body.country);
                 res.json({summit : body, ascent : [ascentSki, ascentHike]});
 
             } else {
-                console.log(err);
+                console.log(log_Prefix + err);
                 res.sendStatus(500);
             }
         });
