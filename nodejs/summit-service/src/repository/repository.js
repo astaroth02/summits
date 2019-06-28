@@ -1,4 +1,5 @@
 'use strict'
+const log_Prefix = 'summit-service: '
 
 const matterhorn = {
   id: 1,
@@ -77,14 +78,14 @@ const repository = (db) => {
 
   const getSummitById = (id) => {
     return new Promise((resolve, reject) => {
-        console.log("Summit by ID requested; ID = " + id)
+        console.log(log_Prefix + "Summit by ID requested; ID = " + id)
       resolve(collection.find(x => x.id === convertStringToInt(id)))
     })
   }
 
   const findSummitsByCountry = (country) => {
     return new Promise((resolve, reject) => {
-        console.log("Summit by country requested; country = " + country)
+        console.log(log_Prefix + "Summit by country requested; country = " + country)
       resolve(collection.filter(x => x.country.toLowerCase() === country.toLowerCase()))
     })
   }
@@ -95,7 +96,7 @@ const repository = (db) => {
         height = convertStringToInt(height)
         const lowerLimit = height-100
         const upperLimit = height+100
-        console.log("Summit by height requested; height = " + height + "; range from: " + lowerLimit + " to " + upperLimit)
+        console.log(log_Prefix + "Summit by height requested; height = " + height + "; range from: " + lowerLimit + " to " + upperLimit)
         resolve(filterRange(collection, lowerLimit, upperLimit))
     })
   }
