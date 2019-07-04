@@ -1,7 +1,13 @@
+apiVersion: v1
+kind: Namespace                     
+metadata:                 
+  name: summits-application
+---
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
   name: summits-user-deployment
+  namespace: summits-application
 spec:
   replicas: 1
   selector:
@@ -22,7 +28,8 @@ spec:
 apiVersion: v1
 kind: Service                     
 metadata:                 
-  name: summits-user-service     
+  name: summits-user-service
+  namespace: summits-application     
 spec:                     
   selector:               
     app: summits-user            
