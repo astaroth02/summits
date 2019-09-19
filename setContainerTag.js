@@ -20,3 +20,5 @@ fs.readFile(fileName, 'utf8', function (err, data) {
 	 }
   });
 });
+
+console.log("Container tag in " + fileName + " updated.");

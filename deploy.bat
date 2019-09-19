@@ -1,91 +1,98 @@
-@SET version=v3
-@SET architecture=arm32v7
+@echo off
 
-if [%1]==[] (
-	goto End
+setlocal enabledelayedexpansion
+
+set version=
+set architectures=x64 arm32v7
+set clusterarchitecture=
+set services=ascent-service general-service user-service
+
+if [%1] == [] (
+	goto Usage
 ) else (
-	if not [%2]==[arm32v7] (
-		goto End
+	if [%2] == [] (
+		set clusterarchitecture=
 	)
-) 
+	if [%2] == [x64] (
+		set clusterarchitecture=
+	)
+	if [%2] == [arm32v7] (
+		set clusterarchitecture=%2
+	)
+	
+	if not [%3] == [] (
+		goto Usage
+	)
 
-@IF "%architecture%" == "arm32v7" (
-    SET suffix=_%architecture%
+	set version=%1
 )
 
-@SET servicename=ascent-service
-@echo
-@echo *******************************************
-@echo **  Update version for %servicename%     **
-@echo *******************************************
-node setContainerTag.js kubernetes\summits-%servicename%%suffix%.yaml %version% %architecture%
+echo.
+echo *******************************************
+echo **  Update service container tags
+echo *******************************************
+for %%s in (%services%) do (
+	for %%a in (%architectures%) do (
+		echo Set container tags for service "%%s" ...
+		if [%%a] == [x64] (
+			node setContainerTag.js kubernetes\summits-%%s.yaml !version!
+		) else (
+			node setContainerTag.js kubernetes\summits-%%s_%%a.yaml !version! %%a
+		)		
+	)
+)
 
-@SET servicename=general-service
-@echo
-@echo *******************************************
-@echo **  Update version for %servicename%     **
-@echo *******************************************
-node setContainerTag.js kubernetes\summits-%servicename%%suffix%.yaml %version% %architecture%
-
-@SET servicename=user-service
-@echo
-@echo *******************************************
-@echo **  Update version for %servicename%     **
-@echo *******************************************
-node setContainerTag.js kubernetes\summits-%servicename%%suffix%.yaml %version% %architecture%
-
-
-@echo
-@echo *******************************************
-@echo **  GIT commit                           **
-@echo *******************************************
+echo.
+echo *******************************************
+echo **  GIT commit
+echo *******************************************
+echo TODO
 
 
-@SET servicename=ascent-service
-@echo
-@echo *******************************************
-@echo **  Docker build and push %servicename%  **
-@echo *******************************************
-@cd 
-docker build . -t nodejs\%servicename%\marcofenskevi/summits-%servicename%:%version%
-docker push nodejs\%servicename%\marcofenskevi/summits-%servicename%:%version%
+echo.
+echo *******************************************
+echo **  Docker build and push
+echo *******************************************
+set services=ascent-service summit-service user-service
+for %%s in (%services%) do (
+	for %%a in (%architectures%) do (
+		echo Build and push docker image for service "%%s" and architecture "%%a" ...
+		if [%%a] == [x64] (
+			docker build ./nodejs/%%s -t marcofenskevi/summits-%%s:!version!
+			docker push marcofenskevi/summits-%%s:!version!
+		) else (
+			docker build ./nodejs/%%s -t marcofenskevi/summits-%%s:%%a-!version!
+			docker push marcofenskevi/summits-%%s:%%a-!version!
+		)		
+	)
+)
 
-docker build . -t nodejs\%servicename%\marcofenskevi/summits-%servicename%:%architecture%-%version%
-docker push nodejs\%servicename%\marcofenskevi/summits-%servicename%:%architecture%-%version%
+echo.
+echo *******************************************
+echo ** Deploy to Kubernetes cluster
+echo *******************************************
+set services=ascent-service general-service user-service
+for %%s in (%services%) do (
+	echo Deploy service "%%s" to cluster ...
+	if [%clusterarchitecture%] == [] (
+		kubectl apply -f ./kubernetes/summits-%%s.yaml
+	) else (
+		kubectl apply -f ./kubernetes/summits-%%s_%clusterarchitecture%.yaml
+	)		
+)
 
-@SET servicename=summit-service
-@echo
-@echo *******************************************
-@echo **  Docker build and push %servicename%  **
-@echo *******************************************
-docker build . -t nodejs\%servicename%\marcofenskevi/summits-%servicename%:%version%
-docker push nodejs\%servicename%\marcofenskevi/summits-%servicename%:%version%
+goto End
 
-docker build . -t nodejs\%servicename%\marcofenskevi/summits-%servicename%:%architecture%-%version%
-docker push nodejs\%servicename%\marcofenskevi/summits-%servicename%:%architecture%-%version%
-
-@SET servicename=user-service
-@echo
-@echo *******************************************
-@echo **  Docker build and push %servicename%  **
-@echo *******************************************
-docker build . -t nodejs\%servicename%\marcofenskevi/summits-%servicename%:%version%
-docker push nodejs\%servicename%\marcofenskevi/summits-%servicename%:%version%
-
-docker build . -t nodejs\%servicename%\marcofenskevi/summits-%servicename%:%architecture%-%version%
-docker push nodejs\%servicename%\marcofenskevi/summits-%servicename%:%architecture%-%version%
-
-@echo
-@echo *******************************************
-@echo ** Deploy to Kubernetes Cluster          **
-@echo *******************************************
-kubectl apply -f kubernetes\summits-general-service%suffix%.yaml
-kubectl apply -f kubernetes\summits-user-service%suffix%.yaml
-kubectl apply -f kubernetes\summits-ascent-service%suffix%.yaml
-
-:End
-echo You need at least a version and optional an architecture (currently only 'arm32v7' is supported).
-echo Usage: deploy VERSION [ARCHITECTURE]"
+:Usage
+echo You need at least a version and the architecture of the target machines of the cluster.
+echo Currently only 'x64' and 'arm32v7' are supported and if the the architecture is left empty 'x64' is assumed. 
+echo Usage: deploy VERSION [ARCHITECTURE]
 echo Examples:
 echo   deploy v3
 echo   deploy 23.12 arm32v7
+
+:End
+set version=
+set architectures=
+set clusterarchitecture=
+set services=
