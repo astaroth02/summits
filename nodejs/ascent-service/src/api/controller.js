@@ -46,7 +46,7 @@ const controllers = {
         const userServicePort = process.env.SUMMITS_USER_SERVICE_SERVICE_PORT;
         const url = 'http://' + userServiceHost + ':' + userServicePort + '/user/' + req.params.username;
         console.log(log_Prefix + url);
-        request( url, { json: true }, (err, innerRes, body) => {
+        request( url, { json: true, headers: req.headers}, (err, innerRes, body) => {
             if (!err && innerRes.statusCode == 200) {
                 console.log(log_Prefix + '# response status: ' + innerRes.statusCode);
                 console.log(log_Prefix + '# Ascent Service: email=%s', body.email);
@@ -64,7 +64,7 @@ const controllers = {
         const summitsServicePort = process.env.SUMMITS_GENERAL_SERVICE_SERVICE_PORT;
         const url = 'http://' + summitsServiceHost + ':' + summitsServicePort + '/summit/' + req.params.summitId;
         console.log(log_Prefix + url);
-        request( url, { json: true }, (err, innerRes, body) => {
+        request( url, { json: true, headers: req.headers }, (err, innerRes, body) => {
             if (!err && innerRes.statusCode == 200) {
                 console.log(log_Prefix + '# response status: ' + innerRes.statusCode);
                 console.log(log_Prefix + '# Ascent Service: country=%s', body.country);
